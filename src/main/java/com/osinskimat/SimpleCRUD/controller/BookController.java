@@ -1,6 +1,8 @@
 package com.osinskimat.SimpleCRUD.controller;
 
+import com.osinskimat.SimpleCRUD.model.Author;
 import com.osinskimat.SimpleCRUD.model.Book;
+import com.osinskimat.SimpleCRUD.repo.AuthorRepo;
 import com.osinskimat.SimpleCRUD.repo.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,9 @@ import java.util.Optional;
 public class BookController {
     @Autowired
     private BookRepo bookRepository;
+
+    @Autowired
+    private AuthorRepo authorRepository;
 
     @GetMapping("/books")
     public ResponseEntity<List<Book>> getBooks() {
@@ -50,14 +55,22 @@ public class BookController {
     }
 
     @PostMapping("/book/new")
-    public ResponseEntity<Book> addBook(@RequestBody Book newBook) {
+    public ResponseEntity<Book> addBook(@RequestBody Book requestedBook) {
         try {
-            Book book = bookRepository.save(newBook);
+            Long authorId = requestedBook.getAuthor().getId();
+            Optional<Author> author = authorRepository.findById(authorId);
 
-            return new ResponseEntity<>(book, HttpStatus.OK);
+            if (author.isPresent()) {
+                Book newBook = new Book();
+                newBook.setTitle(requestedBook.getTitle());
+                newBook.setAuthor(author.get());
+
+                Book book = bookRepository.save(newBook);
+                return new ResponseEntity<>(book, HttpStatus.OK);
+            }
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception exception) {
-            System.out.println("Could not update book!" + exception);
-
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

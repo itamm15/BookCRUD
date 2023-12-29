@@ -3,21 +3,30 @@ package com.osinskimat.SimpleCRUD.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
-@Table(name = "Books")
+@Table(name = "Authors")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @ToString
-public class Book {
+public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
-    private String title;
+    private String firstname;
 
-    @ManyToOne
-    private Author author;
+    @Column(nullable = false)
+    private String lastname;
+
+    @Column(nullable = false)
+    private String email;
+
+    private LocalDate birthDate;
 }
+
+
