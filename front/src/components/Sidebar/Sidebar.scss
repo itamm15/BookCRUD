@@ -9,18 +9,27 @@ body,
   height: 100%;
 }
 
+.navbar-container {
+  display: flex;
+  height: 100%;
+}
+
 .navbar {
   list-style: none;
   background-color: #474ca9;
   color: white;
   width: 20%;
-  height: 100%;
 }
 
 .navbar-element {
   height: 40px;
   margin: 0px 20px 20px 20px;
   border-bottom: 2px solid #5157af;
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
 }
 
 .navbar-element__header {
