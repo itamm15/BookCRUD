@@ -1,9 +1,6 @@
 import { useEffect, useState, Dispatch } from "react";
 import fetchBooks from "../../hooks/books/fetchBooks";
 
-type BookAuthor = { birthDate: Date | null, email: string, firstname: string, lastname: string, id: number };
-type Book = { id: number, title: string, author: BookAuthor };
-
 const BooksPage = () => {
   const [books, setBooks] = useState<Book[]>([]);
 
