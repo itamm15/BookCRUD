@@ -27,10 +27,6 @@ public class BookController {
             List<Book> bookList = new ArrayList<>();
             bookRepository.findAll().forEach(bookList::add);
 
-            if (bookList.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
             return new ResponseEntity<>(bookList, HttpStatus.OK);
         } catch (Exception exception) {
             System.out.println("Could not obtain books!" + exception);

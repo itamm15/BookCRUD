@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Dispatch } from "react";
 import fetchBooks from "../../hooks/books/fetchBooks";
 
 type BookAuthor = { birthDate: Date | null, email: string, firstname: string, lastname: string, id: number };
@@ -12,17 +12,21 @@ const BooksPage = () => {
   }, [])
 
   return (
-    <div>
+    <>
       {books && books.map((book) => (
         <div>{ book.title }</div>
       ))}
-    </div>
+    </>
   );
 };
 
-const retrieveBooks = async (setBooks: React.Dispatch<React.SetStateAction<Book[]>>) => {
-  const fetchedBooks: Book[] = await fetchBooks();
-  setBooks(fetchedBooks);
+const retrieveBooks = async (setBooks: Dispatch<Book[]>) => {
+  try {
+    const fetchedBooks: Book[] = await fetchBooks();
+    setBooks(fetchedBooks);
+  } catch (error) {
+    console.error("Error fetching books:", error);
+  }
 }
 
 export default BooksPage;
