@@ -1,5 +1,6 @@
 import { Dispatch, useEffect, useState } from "react";
 import { Author } from "../../models/author";
+import fetchAuthors from "../../hooks/authors/fetchAuthors";
 
 const AuthorsPage = () => {
   const [authors, setAuthors] = useState<Author[]>([]);
@@ -9,12 +10,21 @@ const AuthorsPage = () => {
   }, [])
 
   return (
-    <div>Authors page!</div>
+    <>
+      {authors && authors.map(author => (
+        <div>{ author.firstname }</div>
+      ))}
+    </>
   )
 };
 
-const retrieveAuthors = (setAuthors: Dispatch<Author[]>) => {
-
+const retrieveAuthors = async (setAuthors: Dispatch<Author[]>) => {
+  try {
+    const authors: Author[] = await fetchAuthors();
+    setAuthors(authors);
+  } catch (error) {
+    console.error("Error fetching authors: ", error);
+  }
 }
 
 export default AuthorsPage;
