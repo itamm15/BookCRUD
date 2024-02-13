@@ -1,5 +1,6 @@
 import { useEffect, useState, Dispatch } from "react";
 import fetchBooks from "../../hooks/books/fetchBooks";
+import { Book } from "../../models/book";
 
 const BooksPage = () => {
   const [books, setBooks] = useState<Book[]>([]);
